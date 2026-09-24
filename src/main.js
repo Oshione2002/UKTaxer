@@ -3,7 +3,7 @@ import { calculators, categories, referenceAreas, getCalculator } from './catalo
 import { calculate, InputError, NATIONS, RULESET, TAX_YEAR } from './tax.js';
 
 const app = document.querySelector('#app');
-const state = { nation: localStorage.getItem('uktaxer-nation') || '', theme: localStorage.getItem('uktaxer-theme') || 'system', current: null, values: {}, output: null, law: null, lawCache: new Map(), search: '', area: 'all', doc: 'all', install: '' };
+const state = { nation: localStorage.getItem('uktaxer-nation') || '', theme: localStorage.getItem('uktaxer-theme') || 'system', current: null, values: {}, output: null, law: null, lawCache: new Map(), search: '', linkedQueryRoute: '', area: 'all', doc: 'all', install: '' };
 const fmt = n => `£${Number(n).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const esc = value => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 const icon = name => ({ search: '⌕', arrow: '↗', chevron: '⌄', link: '↗', book: '▤', download: '↓', sparkle: '✦' })[name] || name;
@@ -55,7 +55,7 @@ async function saveReport(type) {
 function notFound() { return `<main class="container page"><h1>Page not found</h1><a href="#/">Return home ↗</a></main>`; }
 function lawPage() {
   const linkedQuery = new URLSearchParams(route().split('?')[1] || '').get('q');
-  if (linkedQuery !== null) state.search = linkedQuery.slice(0, 120);
+  if (linkedQuery !== null && state.linkedQueryRoute !== route()) { state.search = linkedQuery.slice(0, 120); state.linkedQueryRoute = route(); }
   return `<main class="container page law-page"><div class="page-intro"><span class="overline">OFFICIAL TEXT · LOCAL COPY</span><h1>Law library</h1><p>Search the complete in-scope Acts and read the provisions behind UKTaxer. The official links remain the authority.</p></div><div class="law-note">Contains public sector information licensed under the Open Government Licence v3.0. Revised text on legislation.gov.uk can have unapplied changes; check the linked official page for current legal effect.</div><div class="law-toolbar"><label class="law-search"><span>⌕</span><input id="law-search" type="search" placeholder="Search a phrase in legislation" value="${esc(state.search)}" aria-label="Search law text"></label><label><span class="sr-only">Tax area</span><select id="law-area"><option value="all">All tax areas</option>${categories.map(c => `<option value="${c.id}" ${state.area === c.id ? 'selected' : ''}>${c.title}</option>`).join('')}<option value="cross-cutting" ${state.area === 'cross-cutting' ? 'selected' : ''}>Cross-cutting</option></select></label><label><span class="sr-only">Document</span><select id="law-document"><option value="all">All documents</option>${(state.law?.documents || []).map(d => `<option value="${esc(d.id)}" ${state.doc === d.id ? 'selected' : ''}>${esc(d.title)}</option>`).join('')}</select></label></div><div id="law-status" class="law-status" role="status">${state.law ? `${state.law.documents.length} official documents · ${state.law.documents.reduce((n,d) => n + d.provisions,0).toLocaleString('en-GB')} provisions` : 'Loading library…'}</div><div id="law-results" class="law-results">${lawResults()}</div></main>`;
 }
 function lawResults() {
