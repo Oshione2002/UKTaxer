@@ -1,4 +1,4 @@
-const CACHE = 'uktaxer-2026.1';
+const CACHE = 'uktaxer-__UKTAXER_CACHE_VERSION__';
 const send = async data => { for (const client of await self.clients.matchAll({ includeUncontrolled: true })) client.postMessage(data); };
 self.addEventListener('install', event => event.waitUntil((async () => {
   try {
