@@ -1,0 +1,25 @@
+LTT (Tax Bands and Tax Rates) (Wales) Regulations 2018
+Official source: https://www.legislation.gov.uk/wsi/2018/128
+Revision: latest available revised text at ingestion
+Retrieved: 2026-09-24T20:58:51.053Z
+Official XML SHA-256: 2a4f18a0d28bbff62e6ec08874f9d10860f033e0428832dcefb02c25c6d4298d
+
+1. Title and commencement
+1
+1 The title of these Regulations is the Land Transaction Tax (Tax Bands and Tax Rates) (Wales) Regulations 2018.
+2 These Regulations come into force on 1 April 2018.
+Official provision: https://www.legislation.gov.uk/wsi/2018/128/regulation/1
+
+2. Application
+2
+1 Subject to paragraph (2), these Regulations have effect in relation to any chargeable transaction with an effective date on or after 1 April 2018.
+2 These Regulations do not have effect in relation to any chargeable transaction that is subject to the Land Transaction Tax (Temporary Variation of Rates and Bands for Residential Property Transactions) (Wales) Regulations 2020.
+Official provision: https://www.legislation.gov.uk/wsi/2018/128/regulation/2
+
+3. Tax bands and percentage tax rates
+3 The Schedule to these Regulations specifies the tax bands and percentage tax rates for the purposes of section 24(1) of, and paragraph 28(1) of Schedule 6 to, the Land Transaction Tax and Anti-avoidance of Devolved Taxes (Wales) Act 2017—
+a Table 1 specifies the tax bands and percentage tax rates for each band for residential property transactions;
+b Table 2 specifies the tax bands and percentage tax rates for each band for higher rates residential property transactions;
+c Table 3 specifies the tax bands and percentage tax rates for each band for non-residential property transactions; and
+d Table 4 specifies the tax bands and percentage tax rates for each band for transactions where the chargeable consideration consists of rent.
+Official provision: https://www.legislation.gov.uk/wsi/2018/128/regulation/3

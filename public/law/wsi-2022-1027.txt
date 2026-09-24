@@ -1,0 +1,117 @@
+LTT Rates Amendment Regulations 2022
+Official source: https://www.legislation.gov.uk/wsi/2022/1027
+Revision: latest available revised text at ingestion
+Retrieved: 2026-09-24T20:58:51.083Z
+Official XML SHA-256: c3d3770ca62f27698047ca2c67b7b1fff72837aa05b719a8085d35d66392274b
+
+1. Title and commencement
+1
+
+The title of these Regulations is the Land Transaction Tax (Tax Bands and Tax Rates) (Wales) (Amendment) Regulations 2022 and they come into force on 10 October 2022.
+Official provision: https://www.legislation.gov.uk/wsi/2022/1027/regulation/1/made
+
+2. Interpretation
+2
+
+In these Regulations,—
+
+a
+
+“the 2018 Regulations” means the Land Transaction Tax (Tax Bands and Tax Rates) (Wales) Regulations 2018;
+
+b
+
+words and expressions used in these Regulations have the same meaning as they have in the Land Transaction Tax and Anti-avoidance of Devolved Taxes (Wales) Act 2017.
+Official provision: https://www.legislation.gov.uk/wsi/2022/1027/regulation/2/made
+
+3. Application
+3
+
+Subject to regulation 4, these Regulations have effect in relation to residential property transactions—
+
+a
+
+with an effective date on or after 10 October 2022; and
+
+b
+
+to which Table 1 of the Schedule to the 2018 Regulations applies.
+Official provision: https://www.legislation.gov.uk/wsi/2022/1027/regulation/3/made
+
+4. Application
+4
+
+These Regulations do not have effect in relation to any transaction specified in regulation 3—
+
+a
+
+if the buyer makes an election in accordance with regulation 6; and
+
+b
+
+either:
+
+i
+
+the transaction is effected in pursuance of a contract entered into and substantially performed before 10 October 2022; or
+
+ii
+
+the transaction is effected in pursuance of a contract entered into but not substantially performed before 10 October 2022 and is not excluded by regulation 5.
+Official provision: https://www.legislation.gov.uk/wsi/2022/1027/regulation/4/made
+
+5. Application
+5
+
+A transaction is excluded by this regulation if it is a transaction specified in regulation 3 which is effected in pursuance of a contract entered into before 10 October 2022 and where —
+
+a
+
+there is any variation of the contract, or assignment of rights under the contract, on or after 10 October 2022;
+
+b
+
+the transaction is effected in consequence of the exercise on or after 10 October 2022 of any option, right of pre-emption or similar right; or
+
+c
+
+on or after 10 October 2022 there is an assignment, subsale or other transaction relating to the whole or part of the subject-matter of the contract as a result of which a person other than the buyer under the contract becomes entitled to call for a transfer.
+Official provision: https://www.legislation.gov.uk/wsi/2022/1027/regulation/5/made
+
+6. Application
+6
+
+1
+
+An election under regulation 4 must—
+
+a
+
+be included in a return made to the WRA in respect of the transaction, or in an amendment of that return; and
+
+b
+
+comply with any requirements specified by the WRA as to its form or the manner of its inclusion.
+
+2
+
+A buyer may only make an election under regulation 4 where the effect of such an election does not result in more tax being chargeable than would otherwise have been the case.
+Official provision: https://www.legislation.gov.uk/wsi/2022/1027/regulation/6/made
+
+7. Amendment of the Land Transaction Tax (Tax Bands and Tax Rates) (Wales) Regulations 2018
+7
+
+1
+
+The Schedule to the 2018 Regulations is amended as follows—
+
+2
+
+For Table 1 substitute—
+
+Table 1
+Residential property transactions
+
+Tax bandRelevant considerationPercentage tax rate
+Zero rate bandNot more than £225,0000%First tax bandMore than £225,000 but not more than £400,0006%Second tax bandMore than £400,000 but not more than £750,0007.5%Third tax bandMore than £750,000 but not more than £1,500,00010%Fourth tax bandMore than £1,500,00012%
+Official provision: https://www.legislation.gov.uk/wsi/2022/1027/regulation/7/made

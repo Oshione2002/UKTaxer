@@ -1,0 +1,26 @@
+LBTT (Tax Rates and Tax Bands) (Scotland) Order 2015
+Official source: https://www.legislation.gov.uk/ssi/2015/126
+Revision: latest available revised text at ingestion
+Retrieved: 2026-09-24T20:58:50.990Z
+Official XML SHA-256: 2bfc4892ab77ff8e02ff6353118f5b2868f76805b461d9d0ed7bd8ef7dd67926
+
+1. Citation, commencement, application and interpretation
+1
+1 This Order may be cited as the Land and Buildings Transaction Tax (Tax Rates and Tax Bands) (Scotland) Order 2015 and comes into force on 1st April 2015.
+2 This Order has effect in relation to land transactions in relation to which—
+a the effective date is on or after 1st April 2015; or
+b the LBTT(S) Act 2013 applies by virtue of the Land and Buildings Transaction Tax (Transitional Provisions) (Scotland) Order 2014 .
+3 In this Order, “the LBTT(S) Act 2013” means the Land and Buildings Transaction Tax (Scotland) Act 2013.
+Official provision: https://www.legislation.gov.uk/ssi/2015/126/article/1
+
+2. Land and buildings transaction tax rates and tax bands – residential property transactions
+2 For the purposes of section 24(1)(a) of the LBTT(S) Act 2013 (residential property transactions) the tax bands and the percentage tax rates for each band for residential property transactions are specified in Table A in the Schedule to this Order.
+Official provision: https://www.legislation.gov.uk/ssi/2015/126/article/2
+
+3. Land and buildings transaction tax rates and tax bands – non-residential property transactions
+3 For the purposes of section 24(1)(b) of the LBTT(S) Act 2013 (non-residential property transactions) the tax bands and the percentage tax rates for each band for non-residential property transactions are specified in Table B in the Schedule to this Order.
+Official provision: https://www.legislation.gov.uk/ssi/2015/126/article/3
+
+4. Land and buildings transaction tax rates and tax bands – chargeable consideration which consists of rent
+4 For the purposes of paragraph 3 of schedule 19 to the LBTT(S) Act 2013 (chargeable consideration which consists of rent) the tax bands and the percentage tax rates for each band applicable to chargeable consideration which consists of rent are specified in Table C in the Schedule to this Order.
+Official provision: https://www.legislation.gov.uk/ssi/2015/126/article/4
