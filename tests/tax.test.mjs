@@ -17,6 +17,9 @@ test('Scottish starter and higher bands differ from England', () => {
   assert.equal(incomeTax(16537, 'scotland').total, 753.73);
   assert.equal(incomeTax(75000, 'scotland').total, 19482.05);
   assert.ok(calculate('salary', { gross: 75000 }, 'scotland').amount > calculate('salary', { gross: 75000 }, 'england').amount);
+  // Scottish Government 2026–27 technical factsheet: £50k Scottish tax is about £1,496 more.
+  assert.equal(Math.round(incomeTax(50000, 'scotland').total - incomeTax(50000, 'england').total), 1496);
+  assert.equal(Math.round(incomeTax(31136, 'england').total - incomeTax(31136, 'scotland').total), 24);
 });
 test('self-employed Class 4 NIC thresholds', () => {
   assert.equal(calculate('self-employed', { profit: 12570 }, 'england').amount, 0);
@@ -37,6 +40,9 @@ test('residential property bands in all four nations', () => {
   assert.equal(calculate('property', { price: 250000 }, 'wales').amount, 1500);
   assert.equal(calculate('property', { price: 400000, additional: true }, 'wales').amount, 29950);
   assert.equal(calculate('property', { price: 350000, firstBuyer: true }, 'england').amount, 2500);
+  // Published GOV.UK and GOV.WALES worked examples.
+  assert.equal(calculate('property', { price: 295000 }, 'england').amount, 4750);
+  assert.equal(calculate('property', { price: 280000 }, 'wales').amount, 3300);
 });
 test('dividend allowance occupies the tax band', () => {
   assert.equal(calculate('dividends', { otherIncome: 12570, dividends: 500 }, 'england').amount, 0);
