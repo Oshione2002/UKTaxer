@@ -1,4 +1,4 @@
-const CACHE_VERSION='uktaxer-offline-2026-2';
+const CACHE_VERSION='uktaxer-offline-2026-3';
 const CORE=['./','./index.html','./app-v27.js','./ai.js','./theme.js','./styles-v39.css','./ai.css','./manifest.webmanifest','./calculators.js','./coverage.js','./engine.js','./export.js','./assets/icon.svg','./law/manifest.json'];
 async function report(type,done,total,error=''){
  const windows=await self.clients.matchAll({type:'window',includeUncontrolled:true});

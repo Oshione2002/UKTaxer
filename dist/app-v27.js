@@ -327,7 +327,7 @@ function importView(sourceCalculator=''){
    <strong>Drop your statements here</strong>
    <span>or</span>
    <button id="statement-browse" class="button primary" type="button">Choose statements</button>
-   <small>PDF, Excel (.xlsx / .xls) or CSV</small>
+   <small>PDF, Excel (.xlsx) or CSV</small>
   </div>
   <div id="statement-file-status" class="statement-file-status" aria-live="polite" hidden></div>
  </section>
@@ -396,7 +396,7 @@ function importView(sourceCalculator=''){
   <h2>How statement import will work</h2>
   <ol>
    <li><strong>Upload a supported statement.</strong> UKTaxer will read PDF, Excel and CSV files.</li>
-   <li><strong>Review every extracted row.</strong> Nothing is silently discarded; rows can be excluded and restored.</li>
+   <li><strong>Review the relevant extracted rows.</strong> Suggested rows can be excluded and restored before any value is applied.</li>
    <li><strong>Choose calculators and fields.</strong> Use UKTaxer AI suggestions or browse every calculator and field yourself.</li>
    <li><strong>Confirm mapped totals.</strong> See exactly what will be added to each calculator before applying anything.</li>
    <li><strong>Calculate with UKTaxer.</strong> Confirmed values feed the existing deterministic calculator engine.</li>
