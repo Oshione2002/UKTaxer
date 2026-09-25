@@ -1,0 +1,202 @@
+/* UKTaxer AI guidance layered on top of deterministic calculators. */
+.uktaxer-ai-launcher{
+  position:fixed;right:max(24px,env(safe-area-inset-right));bottom:max(24px,env(safe-area-inset-bottom));z-index:40;
+  width:48px;height:48px;padding:0;display:inline-flex;align-items:center;justify-content:center;gap:0;
+  border:1px solid #3e607e;border-radius:999px;background:var(--strong-surface);color:white;
+  font-size:15px;font-weight:800;overflow:hidden;white-space:nowrap;
+  box-shadow:0 5px 18px var(--tone-073e3226);
+  transition:width .18s ease,right .2s ease,background-color .18s ease
+}
+.uktaxer-ai-launcher:hover{background:#1c3a5c}
+.uktaxer-ai-launcher>span:last-child{
+  max-width:0;opacity:0;overflow:hidden;transition:max-width .18s ease,opacity .12s ease
+}
+.uktaxer-ai-spark{color:var(--mint);font-size:18px;flex:0 0 auto}
+body.scroll-top-visible .uktaxer-ai-launcher{
+  right:calc(max(24px,env(safe-area-inset-right)) + 60px)
+}
+@media(min-width:651px) and (hover:hover) and (pointer:fine){
+  .uktaxer-ai-launcher:hover,
+  .uktaxer-ai-launcher[aria-expanded="true"]{
+    width:170px;gap:6px;padding:0 12px
+  }
+  .uktaxer-ai-launcher:hover>span:last-child,
+  .uktaxer-ai-launcher[aria-expanded="true"]>span:last-child{
+    max-width:118px;opacity:1;overflow:visible
+  }
+}
+.uktaxer-ai-panel{
+  position:fixed;right:24px;bottom:max(86px,calc(env(safe-area-inset-bottom) + 86px));z-index:45;
+  width:min(430px,calc(100vw - 32px));height:min(690px,calc(100dvh - var(--header-height) - 36px));
+  display:grid;grid-template-rows:auto auto minmax(0,1fr) auto auto;
+  background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;
+  box-shadow:0 18px 60px #0000002e
+}
+.uktaxer-ai-panel[hidden]{display:none}
+.uktaxer-ai-header{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;padding:19px 20px 15px;
+  background:var(--strong-surface);color:white
+}
+.uktaxer-ai-header h2{font-size:22px;margin:2px 0 0;color:white}
+.uktaxer-ai-header h2 span{color:var(--mint)}
+.uktaxer-ai-kicker{display:block;font-size:11px;font-weight:800;letter-spacing:1.15px;text-transform:uppercase;color:#b7c7db}
+.uktaxer-ai-header-actions{display:flex;align-items:center;gap:8px}
+.uktaxer-ai-header-button,
+.uktaxer-ai-close{
+  width:38px;height:38px;border:1px solid #3e607e;border-radius:50%;background:transparent;color:white;
+  line-height:1;display:grid;place-items:center
+}
+.uktaxer-ai-header-button{font-size:0}
+.uktaxer-ai-close{font-size:25px}
+.uktaxer-ai-header-button:hover,
+.uktaxer-ai-close:hover{background:#264869}
+.uktaxer-ai-modes{
+  display:flex;gap:7px;overflow-x:auto;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--tone-fbfcfb);
+  scrollbar-width:none
+}
+.uktaxer-ai-modes::-webkit-scrollbar{display:none}
+.uktaxer-ai-modes button{
+  flex:0 0 auto;border:1px solid var(--line);border-radius:999px;background:var(--surface);padding:7px 10px;
+  color:var(--muted);font-size:12px;font-weight:750
+}
+.uktaxer-ai-modes button.active{background:var(--tone-e4eee7);border-color:var(--tone-b9d2c1);color:var(--green)}
+.uktaxer-ai-messages{
+  min-height:0;overflow:auto;padding:16px;background:var(--tone-f3f6f5);scroll-behavior:smooth
+}
+.uktaxer-ai-message{max-width:92%;margin:0 0 12px;font-size:14px;line-height:1.55}
+.uktaxer-ai-message p{margin:0;white-space:pre-wrap}
+.uktaxer-ai-message.user{
+  margin-left:auto;padding:10px 12px;border-radius:14px 14px 4px 14px;background:var(--strong-surface);color:white
+}
+.uktaxer-ai-message.assistant{
+  padding:12px 13px;border:1px solid var(--line);border-radius:14px 14px 14px 4px;background:var(--surface);color:var(--tone-172e28)
+}
+.uktaxer-ai-message.assistant.error{border-color:var(--tone-e8d9b0);background:var(--tone-fff9ec);color:var(--tone-785b23)}
+.uktaxer-ai-links{display:grid;gap:8px;margin-top:12px}
+.uktaxer-ai-links a{
+  display:block;text-decoration:none;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--tone-fbfcfb)
+}
+.uktaxer-ai-links a:hover{background:var(--tone-eaf1eb)}
+.uktaxer-ai-links strong{display:block;color:var(--green);font-size:13px}
+.uktaxer-ai-links small{display:block;margin-top:3px;color:var(--muted);font-size:12px;line-height:1.45}
+.uktaxer-ai-sources{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.uktaxer-ai-sources>strong{width:100%;font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted)}
+.uktaxer-ai-sources a{
+  text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 8px;background:var(--tone-fbfcfb);color:var(--green);font-size:11px;font-weight:750
+}
+.uktaxer-ai-cautions{padding-left:18px;margin:10px 0 0;color:var(--muted);font-size:12px}
+.uktaxer-ai-cautions li{margin:4px 0}
+.uktaxer-ai-form{padding:12px 14px 10px;border-top:1px solid var(--line);background:var(--surface)}
+.uktaxer-ai-form>label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.uktaxer-ai-input-row{display:grid;grid-template-columns:minmax(0,1fr) 42px;gap:8px;align-items:end}
+.uktaxer-ai-input-row textarea{
+  width:100%;min-height:46px;max-height:120px;resize:vertical;padding:10px 11px;border:1px solid var(--line);
+  border-radius:12px;background:var(--tone-fbfcfb);color:var(--tone-172e28);font:inherit;font-size:14px;line-height:1.4
+}
+.uktaxer-ai-input-row textarea:focus{outline:2px solid var(--tone-219d72);outline-offset:1px}
+.uktaxer-ai-input-row button{
+  width:42px;height:42px;border:0;border-radius:12px;background:var(--green);color:var(--surface);font-size:20px;font-weight:900
+}
+:root[data-theme="dark"] .uktaxer-ai-input-row button{color:#101b2d}
+.uktaxer-ai-privacy{
+  margin:0;padding:0 14px 13px;background:var(--surface);color:var(--muted);font-size:10.5px;line-height:1.45
+}
+.uktaxer-ai-thinking{display:flex;gap:4px;margin-bottom:5px}
+.uktaxer-ai-thinking span{width:6px;height:6px;border-radius:50%;background:var(--green);opacity:.35;animation:uktaxer-ai-pulse 1s infinite ease-in-out}
+.uktaxer-ai-thinking span:nth-child(2){animation-delay:.15s}.uktaxer-ai-thinking span:nth-child(3){animation-delay:.3s}
+@keyframes uktaxer-ai-pulse{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-2px)}}
+.uktaxer-ai-inline{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;padding:11px 13px;
+  border:1px solid #5d7895;border-radius:10px;background:#213e60;color:white;font-size:14px;font-weight:800
+}
+.uktaxer-ai-inline span{color:var(--mint)}
+.uktaxer-ai-inline:hover{background:#294c6e}
+.uktaxer-ai-home-card{
+  width:100%;margin-top:24px;padding:18px 20px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;
+  text-align:left;border:1px solid var(--tone-b9d2c1);border-radius:var(--radius);background:var(--tone-eaf1eb);color:var(--green)
+}
+.uktaxer-ai-home-card:hover{background:var(--tone-e4eee7)}
+.uktaxer-ai-home-icon{
+  width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--strong-surface);color:var(--mint);font-size:20px
+}
+.uktaxer-ai-home-card strong{display:block;font-size:16px;margin-bottom:2px}
+.uktaxer-ai-home-card small{display:block;color:var(--muted);font-size:13px;line-height:1.45;font-weight:500}
+@media(max-width:650px){
+  .uktaxer-ai-launcher{
+    right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));
+    width:48px;height:48px;padding:0;gap:0;justify-content:center;border-radius:50%
+  }
+  .uktaxer-ai-launcher:hover,
+  .uktaxer-ai-launcher:focus-visible{width:48px;padding:0;gap:0}
+  .uktaxer-ai-launcher>span:last-child{display:none}
+  .uktaxer-ai-launcher[aria-expanded="true"]{
+    width:164px;padding:0 12px;gap:6px;border-radius:999px
+  }
+  .uktaxer-ai-launcher[aria-expanded="true"]>span:last-child{
+    display:block;max-width:112px;opacity:1;overflow:visible
+  }
+  body.scroll-top-visible .uktaxer-ai-launcher{
+    right:calc(max(16px,env(safe-area-inset-right)) + 56px)
+  }
+  .uktaxer-ai-panel{
+    right:10px;bottom:max(72px,calc(env(safe-area-inset-bottom) + 72px));width:calc(100vw - 20px);
+    height:min(660px,calc(100dvh - var(--header-height) - 18px));border-radius:16px
+  }
+  .uktaxer-ai-header{padding:16px}
+  .uktaxer-ai-messages{padding:13px}
+  .uktaxer-ai-home-card{padding:15px;gap:11px}
+}
+@media print{.uktaxer-ai-launcher,.uktaxer-ai-panel,.uktaxer-ai-inline,.uktaxer-ai-home-card{display:none!important}}
+@media(prefers-reduced-motion:reduce){.uktaxer-ai-thinking span{animation:none}}
+
+/* Touch devices stay icon-only until opened; while open, the launcher keeps its label visible. */
+@media (hover:none), (pointer:coarse){
+  .uktaxer-ai-launcher:not([aria-expanded="true"]),
+  .uktaxer-ai-launcher:not([aria-expanded="true"]):hover,
+  .uktaxer-ai-launcher:not([aria-expanded="true"]):focus,
+  .uktaxer-ai-launcher:not([aria-expanded="true"]):focus-visible{
+    width:48px!important;height:48px!important;padding:0!important;gap:0!important;border-radius:50%!important
+  }
+  .uktaxer-ai-launcher:not([aria-expanded="true"])>span:last-child{display:none!important}
+  .uktaxer-ai-launcher[aria-expanded="true"]{
+    width:164px!important;height:48px!important;padding:0 12px!important;gap:6px!important;border-radius:999px!important
+  }
+  .uktaxer-ai-launcher[aria-expanded="true"]>span:last-child{
+    display:block!important;max-width:112px!important;opacity:1!important;overflow:visible!important
+  }
+}
+
+
+/* Keep legal references explicit and separated in UKTaxer AI answers. */
+.uktaxer-ai-reference-group+.uktaxer-ai-reference-group{
+ margin-top:8px;
+}
+.uktaxer-ai-reference-empty{
+ display:block;
+ width:100%;
+ color:var(--muted);
+ font-size:11px;
+ line-height:1.4;
+}
+
+
+/* AI legal references appear as compact individual pills. */
+.uktaxer-ai-legal-pills{
+ gap:7px;
+}
+.uktaxer-ai-legal-pills>strong{
+ margin-bottom:2px;
+}
+.uktaxer-ai-legal-pills a{
+ display:inline-flex;
+ align-items:center;
+ min-height:27px;
+ padding:4px 9px;
+ border-radius:999px;
+ white-space:nowrap;
+}
+.uktaxer-ai-legal-pills a:hover,
+.uktaxer-ai-legal-pills a:focus-visible{
+ background:var(--tone-e4eee7);
+ border-color:var(--tone-bfcec5);
+}
