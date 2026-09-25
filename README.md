@@ -14,7 +14,7 @@ Open `http://localhost:8000`. API routes require a Vercel server or `vercel dev`
 
 ## Rules and scope
 
-The fixed ruleset is `UK-2026.1`, reviewed 25 September 2026. Calculators cover six individual, four business, four transaction, three relief and seven specialist positions. Amounts are estimates; workspaces that need verified statutory profit, eligibility or estate facts display **Review needed** until those facts are supplied. Choose the relevant UK nation in the header for location-sensitive calculations.
+The fixed ruleset is `UK-2026.1`, reviewed 25 September 2026. The 24 calculators are organised under named UK tax heads rather than taxpayer or workflow groups. The searchable UK Tax Areas directory covers additional duties, levies, devolved taxes and local property taxes; each area without a reliable calculator is marked **Review needed** and links to an official source. Amounts are estimates; workspaces that need verified statutory profit, eligibility or estate facts display **Review needed** until those facts are supplied. Choose the relevant UK nation in the header for location-sensitive calculations.
 
 The local law library stores extracted provision text and official links for 34 in-scope Acts and regulations, with retrieval dates and XML checksums in `dist/law/manifest.json`. Current rates are linked to official HMRC, Scottish and Welsh authority pages from each calculator. A future legal or rate change requires a reviewed ruleset release.
 

@@ -1,5 +1,5 @@
 import {CALCULATORS,DEFAULTS,SOURCE_LINKS} from './calculators.js';
-import {SECTORS} from './coverage.js';
+import {TAX_AREAS} from './tax-areas.js';
 import {RULESET,REVIEWED,money} from './engine.js';
 import {buildInputRows,downloadPdf,downloadExcel} from './export.js';
 
@@ -12,7 +12,6 @@ if(header){
  new ResizeObserver(syncHeaderHeight).observe(header);
 }
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const titleCase=s=>String(s).replace(/\b[a-z]/g,c=>c.toUpperCase());
 const format=(n,currency='GBP')=>typeof n==='number'?new Intl.NumberFormat('en-GB',{style:'currency',currency,minimumFractionDigits:2,maximumFractionDigits:2}).format(n/100):escape(n);
 const statusLabel=s=>({calculated:'Formula calculator',assisted:'Assisted estimate',scenario:'Planning scenario'}[s]);
 const link=(href,label)=>`<a href="${escape(href)}" target="_blank" rel="noopener noreferrer">${escape(label)} ↗</a>`;
@@ -34,11 +33,11 @@ function homeView(){
  const homeCards=[...groups].map(([group,calculators],index)=>`<details class="home-group" style="--home-order:${index}"><summary><h2>${escape(group)}</h2><svg class="home-category-chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="home-group-links">${calculators.map(c=>`<a class="home-calculator" href="#calculator/${c.id}"><span><strong>${escape(c.name)}</strong><small>${escape(c.description)}</small></span><span class="home-link-arrow" aria-hidden="true">→</span></a>`).join('')}</div></details>`);
  $('#main').innerHTML=`<div class="page-header sticky-page-heading"><p class="eyebrow">Welcome to UKTaxer</p><h1>What would you like to calculate?</h1></div><div class="intro page-subtext"><p class="lead">Choose a tax calculator to estimate an amount, review the breakdown and check the rules that apply.</p></div>
  <div class="home-calculators"><div class="home-calculator-column">${homeCards.filter((_,index)=>index%2===0).join('')}</div><div class="home-calculator-column">${homeCards.filter((_,index)=>index%2===1).join('')}</div></div>
- <div class="home-reference-links"><a href="#coverage"><strong>Explore tax coverage</strong><span>See the taxes and taxpayer categories covered by UKTaxer.</span></a><a href="#law"><strong>Read the tax law</strong><span>Search UK legislation by document, area or phrase.</span></a></div>
+ <div class="home-reference-links"><a href="#coverage"><strong>Browse UK tax areas</strong><span>Find tax heads, duties and levies, including those requiring individual review.</span></a><a href="#law"><strong>Read the tax law</strong><span>Search UK legislation by document, area or phrase.</span></a></div>
  <section class="home-how" aria-labelledby="home-how-title">
   <div class="home-section-heading"><p class="eyebrow">How it works</p><h2 id="home-how-title">A clearer estimate in three steps</h2></div>
   <ol class="home-steps">
-   <li><span class="home-step-number">1</span><div><strong>Choose the right calculator</strong><p>Select the tax, transaction or taxpayer category that matches what you want to estimate.</p></div></li>
+   <li><span class="home-step-number">1</span><div><strong>Choose the right tax</strong><p>Select the tax head that matches what you want to estimate.</p></div></li>
    <li><span class="home-step-number">2</span><div><strong>Enter the relevant figures</strong><p>Complete the fields and adjust the available assumptions to reflect your situation.</p></div></li>
    <li><span class="home-step-number">3</span><div><strong>Review the complete result</strong><p>Check the breakdown, assumptions, scope and legal references shown with the estimate.</p></div></li>
   </ol>
@@ -66,15 +65,8 @@ function buildExportReport(c,r){
  ]};
 }
 
-function calculatorGroupIcon(group){
- const icons={
-  'Individuals':'<svg class="calculator-group-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
-  'Businesses':'<svg class="calculator-group-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 10h2M13 10h2M9 14h2M13 14h2"/></svg>',
-  'Transactions':'<svg class="calculator-group-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 7h10l3 5-3 5H7l-3-5Z"/><path d="M9 12h6"/></svg>',
-  'Reliefs & allowances':'<svg class="calculator-group-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v18M5 8h14M7 16h10"/><path d="M8 5 5 8l3 3M16 13l3 3-3 3"/></svg>',
-  'Specialist sectors':'<svg class="calculator-group-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19h16M6 16l4-5 3 3 5-7"/><path d="M16 7h2v2"/></svg>'
- };
- return icons[group]||'<svg class="calculator-group-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg>';
+function calculatorGroupIcon(){
+ return '<svg class="calculator-group-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M8 12h8M12 8v8"/></svg>';
 }
 function nav(){
  const query=$('#calculator-search').value.toLowerCase().trim();
@@ -84,7 +76,7 @@ function nav(){
   if(!groups.has(c.group))groups.set(c.group,[]);
   groups.get(c.group).push(c);
  }
- $('#calculator-nav').innerHTML=[...groups].map(([group,calculators])=>`<details class="calculator-nav-group" ${query||location.hash.startsWith('#calculator')&&calculators.some(c=>c.id===state.current)?'open':''}><summary class="nav-group"><span class="calculator-group-label">${calculatorGroupIcon(group)}<span>${escape(titleCase(group))}</span></span><svg class="nav-group-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="calculator-nav-links">${calculators.map(c=>`<a href="#calculator/${c.id}" class="calc-link ${state.current===c.id&&location.hash.startsWith('#calculator')?'active':''}" ${state.current===c.id&&location.hash.startsWith('#calculator')?'aria-current="page"':''}><span class="nav-symbol" aria-hidden="true">${c.symbol}</span>${escape(c.short)}</a>`).join('')}</div></details>`).join('')||'<p class="empty">No matching calculators.</p>';
+ $('#calculator-nav').innerHTML=[...groups].map(([group,calculators])=>`<details class="calculator-nav-group" ${query||location.hash.startsWith('#calculator')&&calculators.some(c=>c.id===state.current)?'open':''}><summary class="nav-group"><span class="calculator-group-label">${calculatorGroupIcon(group)}<span>${escape(group)}</span></span><svg class="nav-group-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="calculator-nav-links">${calculators.map(c=>`<a href="#calculator/${c.id}" class="calc-link ${state.current===c.id&&location.hash.startsWith('#calculator')?'active':''}" ${state.current===c.id&&location.hash.startsWith('#calculator')?'aria-current="page"':''}><span class="nav-symbol" aria-hidden="true">${c.symbol}</span>${escape(c.short)}</a>`).join('')}</div></details>`).join('')||'<p class="empty">No matching calculators.</p>';
 }
 const fieldHelpPopover=document.createElement('div');
 fieldHelpPopover.id='field-help-popover';
@@ -257,7 +249,7 @@ function renderDetail(c){
  const container=$('#detail-content');if(!container)return;
  const r=state.result,currency=r?.currency||'GBP';
  if(state.tab==='sources'){container.innerHTML=sourceHtml(c);return;}
- if(state.tab==='assumptions'){container.innerHTML=`<h3>What this estimate assumes</h3><ul>${(r?.notes||['Correct the highlighted inputs to see the assumptions for your result.']).map(n=>`<li>${escape(n)}</li>`).join('')}</ul><p><a href="#coverage">Check coverage for your sector</a> · <a href="#sources">Sources & methodology</a></p>`;return;}
+ if(state.tab==='assumptions'){container.innerHTML=`<h3>What this estimate assumes</h3><ul>${(r?.notes||['Correct the highlighted inputs to see the assumptions for your result.']).map(n=>`<li>${escape(n)}</li>`).join('')}</ul><p><a href="#coverage">Browse UK tax areas</a> · <a href="#sources">Sources & methodology</a></p>`;return;}
  if(!r){container.innerHTML='<p>Enter valid details to view your calculation.</p>';return;}
  if(r.bands){const incomeTaxAmount=r.rows.find(([label])=>label==='Income Tax')?.[1]??r.amount;container.innerHTML=`<h3>Your progressive tax bands</h3><p>Each rate applies only to income inside that band. These are annual taxable-income bands.</p><div class="table-wrap"><table><thead><tr><th scope="col">Annual band</th><th scope="col">Rate</th><th scope="col">Your income in band</th><th scope="col">Tax</th></tr></thead><tbody>${r.bands.map(b=>`<tr><td>${b.upper===Infinity?'Above '+format(b.lower):format(b.lower)+' – '+format(b.upper)}</td><td>${b.rate/100}%</td><td>${format(b.used)}</td><td>${format(b.tax)}</td></tr>`).join('')}<tr class="table-total"><td colspan="3">Annual Income Tax</td><td>${format(incomeTaxAmount)}</td></tr></tbody></table></div><a class="inline-ref" href="#law">Read the UK tax law library ↗</a><h3 class="full-breakdown-title">Full calculation</h3>${rowsTable(r,currency)}`;}
  else container.innerHTML=`<h3>${r.amount===null?'Scope needs confirmation':'How the amount is calculated'}</h3>${r.rows.length?rowsTable(r,currency):`<ul>${r.notes.map(n=>`<li>${escape(n)}</li>`).join('')}</ul>`}<p class="mini-label">${refsHtml(c.sources)}</p>`;
@@ -265,16 +257,17 @@ function renderDetail(c){
 function rowsTable(r,currency){return `<div class="table-wrap"><table><thead><tr><th scope="col">Calculation item</th><th scope="col">Amount / treatment</th></tr></thead><tbody>${r.rows.map(([name,val])=>`<tr><td>${escape(name)}</td><td>${format(val,currency)}</td></tr>`).join('')}</tbody></table></div>`;}
 
 function coverageView(){
- $('#main').innerHTML=`<div class="coverage-heading-row"><div><p class="eyebrow">Scope, before calculation</p><h1>Every chapter. Clear boundaries.</h1></div><div class="coverage-toolbar"><label class="search wide-search"><span aria-hidden="true">⌕</span><input id="coverage-search" type="search" aria-label="Search tax coverage" placeholder="Search calculators or sector guides…" value="${escape(state.coverageQuery)}"></label><label class="coverage-filter-control"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 4h18l-7 8v7l-4 2v-9Z"/></svg><select id="coverage-filter" aria-label="Filter tax coverage"><option value="All" ${state.coverage==='All'?'selected':''}>All coverage</option><option value="calculator" ${state.coverage==='calculator'?'selected':''}>Calculators</option><option value="sector" ${state.coverage==='sector'?'selected':''}>Sector guides</option></select></label></div></div><div class="intro coverage-intro"><p class="lead">Explore the UK taxes and taxpayer segments. A formula, an assisted assessment and a legal exemption are different kinds of coverage.</p></div><div class="notice neutral">${CALCULATORS.length} calculator workspaces · ${SECTORS.length} sector and subject guides · UK legal corpus. Some provisions require individual review.</div><p class="law-count" id="coverage-count" aria-live="polite"></p><div class="grid-cards" id="coverage-cards"></div>`;
- const matches=(item,query)=>!query||`${item.name||''} ${item.group||''} ${item.description||''} ${item.text||''} ${item.status||''}`.toLowerCase().includes(query);
+ $('#main').innerHTML=`<div class="coverage-heading-row"><div><p class="eyebrow">UK taxes, duties and levies</p><h1>UK tax areas</h1></div><div class="coverage-toolbar"><label class="search wide-search"><span aria-hidden="true">⌕</span><input id="coverage-search" type="search" aria-label="Search UK tax areas" placeholder="Search a tax or duty…" value="${escape(state.coverageQuery)}"></label><label class="coverage-filter-control"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 4h18l-7 8v7l-4 2v-9Z"/></svg><select id="coverage-filter" aria-label="Filter UK tax areas"><option value="All" ${state.coverage==='All'?'selected':''}>All tax areas</option><option value="calculator" ${state.coverage==='calculator'?'selected':''}>With calculator</option><option value="review" ${state.coverage==='review'?'selected':''}>Review needed</option></select></label></div></div><div class="intro coverage-intro"><p class="lead">Browse named UK and devolved tax heads. Calculator availability is shown separately from the existence of a tax or duty.</p></div><div class="notice neutral">${TAX_AREAS.length} tax areas · ${CALCULATORS.length} calculator workspaces. Areas without a calculator link to an official source and require individual review.</div><p class="law-count" id="coverage-count" aria-live="polite"></p><div class="grid-cards" id="coverage-cards"></div>`;
  const render=()=>{
   const query=state.coverageQuery.toLowerCase().trim();
-  const calculators=state.coverage==='sector'?[]:CALCULATORS.filter(item=>matches(item,query));
-  const sectors=state.coverage==='calculator'?[]:SECTORS.filter(item=>matches(item,query));
-  const cards=calculators.map(c=>`<article class="coverage-card"><span class="badge ${c.status}">${statusLabel(c.status)}</span><h2>${escape(c.name)}</h2><p>${escape(c.description)}</p><p class="mini-label">${refsHtml(c.sources)}</p><a href="#calculator/${c.id}">Open calculator →</a></article>`).join('')+sectors.map(s=>`<article class="coverage-card"><span class="badge assisted">${escape(s.status)}</span><h2>${escape(s.name)}</h2><p>${escape(s.text)}</p><p class="mini-label">${refsHtml(s.sources)}</p>${s.source?`<p>${link(SOURCE_LINKS[s.source].url,'Additional source')}</p>`:''}<a href="#calculator/${s.calc}">Related calculator →</a></article>`).join('');
-  const count=calculators.length+sectors.length;
-  $('#coverage-count').textContent=`${count} ${count===1?'result':'results'}`;
-  $('#coverage-cards').innerHTML=cards||'<p class="empty coverage-empty">No matching coverage found.</p>';
+  const areas=TAX_AREAS.filter(area=>{
+   if(state.coverage==='calculator'&&!area.calculators.length)return false;
+   if(state.coverage==='review'&&area.calculators.length)return false;
+   const names=area.calculators.map(id=>CALCULATORS.find(c=>c.id===id)?.name||'').join(' ');
+   return !query||`${area.name} ${area.summary} ${names}`.toLowerCase().includes(query);
+  });
+  $('#coverage-count').textContent=`${areas.length} ${areas.length===1?'tax area':'tax areas'}`;
+  $('#coverage-cards').innerHTML=areas.map(area=>`<article class="coverage-card"><span class="badge ${area.calculators.length?'':'assisted'}">${area.calculators.length?'Calculator available':'Review needed'}</span><h2>${escape(area.name)}</h2><p>${escape(area.summary)}</p><p class="mini-label">${link(area.url,'Official source')}</p>${area.calculators.length?`<div class="tax-area-calculators">${area.calculators.map(id=>{const c=CALCULATORS.find(item=>item.id===id);return c?`<a href="#calculator/${c.id}">${escape(c.name)} →</a>`:'';}).join('')}</div>`:'<p class="tax-area-review">No reliable calculator is available for this tax area. Check the official source and seek case-specific review.</p>'}</article>`).join('')||'<p class="empty coverage-empty">No matching tax areas found.</p>';
  };
  const search=$('#coverage-search');
  const filter=$('#coverage-filter');

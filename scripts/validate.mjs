@@ -4,7 +4,7 @@ import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 import {CALCULATORS,SOURCE_LINKS} from '../dist/calculators.js';
 const root=new URL('../',import.meta.url);
-for(const file of ['dist/app-v27.js','dist/ai.js','dist/theme.js','dist/engine.js','dist/calculators.js','dist/coverage.js','dist/export.js','dist/service-worker.js','api/gemini.js','api/statement.js']){
+for(const file of ['dist/app-v27.js','dist/ai.js','dist/theme.js','dist/engine.js','dist/calculators.js','dist/tax-areas.js','dist/export.js','dist/service-worker.js','api/gemini.js','api/statement.js']){
  const proc=spawnSync(process.execPath,['--check',fileURLToPath(new URL(file,root))],{encoding:'utf8'});
  assert.equal(proc.status,0,file+': '+proc.stderr);
 }

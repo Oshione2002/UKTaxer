@@ -2073,3 +2073,7 @@ html.uktaxer-installed-app #update-app:not([hidden]){
  .nation-control{font-size:0;gap:0;grid-column:3}
  .nation-control select{max-width:122px;font-size:11px;min-height:34px}
 }
+/* Tax-head directory: keep related calculators distinct from official-only entries. */
+.tax-area-calculators{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:14px}
+.tax-area-calculators a{font-weight:650;color:var(--green)}
+.coverage-card .tax-area-review{font-size:14px;margin:14px 0 0;color:var(--muted)}

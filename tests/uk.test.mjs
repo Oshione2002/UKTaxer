@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {CALCULATORS,DEFAULTS,SOURCE_LINKS} from '../dist/calculators.js';
+import {TAX_AREAS} from '../dist/tax-areas.js';
 import * as E from '../dist/engine.js';
 import {buildPdfBytes,buildExcelBytes} from '../dist/export.js';
 
@@ -9,10 +10,14 @@ let selected='england';
 globalThis.localStorage={getItem:key=>key==='uktaxer-nation'?selected:null};
 const pounds=n=>Math.round(n*100);
 const byId=id=>CALCULATORS.find(c=>c.id===id);
-test('NTaxer positions become 24 UK workspaces in five groups',()=>{
+test('24 workspaces use UK tax heads and the directory includes further taxes',()=>{
  assert.equal(CALCULATORS.length,24);
- assert.deepEqual([...new Set(CALCULATORS.map(c=>c.group))],['Individuals','Businesses','Transactions','Reliefs & allowances','Specialist sectors']);
- assert.deepEqual([6,4,4,3,7],['Individuals','Businesses','Transactions','Reliefs & allowances','Specialist sectors'].map(group=>CALCULATORS.filter(c=>c.group===group).length));
+ assert.ok(new Set(CALCULATORS.map(c=>c.group)).size>5);
+ assert.ok(CALCULATORS.every(c=>!['Individuals','Businesses','Transactions','Reliefs & allowances','Specialist sectors'].includes(c.group)));
+ assert.ok(TAX_AREAS.length>30);
+ assert.equal(new Set(TAX_AREAS.map(area=>area.name)).size,TAX_AREAS.length);
+ assert.deepEqual(new Set(TAX_AREAS.flatMap(area=>area.calculators)),new Set(CALCULATORS.map(c=>c.id)));
+ assert.ok(TAX_AREAS.every(area=>area.url.startsWith('https://')&&area.name&&area.summary));
  for(const c of CALCULATORS){assert.ok(c.fields.length);assert.ok(c.sources.every(id=>SOURCE_LINKS[id]?.url.startsWith('https://')));}
 });
 test('PAYE threshold, live amount and nation selection',()=>{

@@ -15,7 +15,7 @@ test('XLSX statement reaches Gemini as readable rows and keeps mapping review',a
  let status,payload;
  const res={status(code){status=code;return this;},setHeader(){return this;},json(value){payload=value;return this;}};
  try{
-  await handler({method:'POST',headers:{},body:{files:[{name:'statement.xlsx',mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',data:Buffer.from(workbook).toString('base64')}],calculators:[{id:'paye',name:'PAYE',group:'Individuals',fields:[{key:'income',label:'Annual gross pay'}]}],sourceCalculator:'paye'}},res);
+  await handler({method:'POST',headers:{},body:{files:[{name:'statement.xlsx',mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',data:Buffer.from(workbook).toString('base64')}],calculators:[{id:'paye',name:'PAYE',group:'Income Tax',fields:[{key:'income',label:'Annual gross pay'}]}],sourceCalculator:'paye'}},res);
   assert.equal(status,200,JSON.stringify(payload));
   const sent=request.input?.[0]?.text||'';
   assert.match(sent,/Salary/);
